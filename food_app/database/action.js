@@ -3,12 +3,13 @@
 
 import { redirect } from "next/navigation";
 import { saveMeal } from "./meals";
+import { revalidatePath } from "next/cache";
 
 function isValidInput(text) {
   return !text || text.trim() === "";
 }
 
-export default async function handleShare(formData) {
+export default async function handleShare(prevState, formData) {
   const meal = {
     title: formData.get("title"),
     summary: formData.get("summary"),
@@ -28,8 +29,17 @@ export default async function handleShare(formData) {
     !meal.image ||
     meal.image.size === 0
   ) {
-    throw new Error("Input field invalid");
+    // throw new Error("Input field invalid");
+    return {
+      message: "Invalid form input",
+    };
   }
   await saveMeal(meal);
+  // with nextjs revalidatePath nextjs will throw away the caching when submitting the form (meals added)
+  //  the revalidatePath takes two arguement
+  // we can use the page or layout as the second arguement
+  // page will only validate single page  while the layout will set up the layout to be validated
+  // meaning nextjs will throw away the cache for this page during the production stage
+  revalidatePath("/meals");
   redirect("/meals");
 }
