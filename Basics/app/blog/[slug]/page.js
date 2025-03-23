@@ -1,9 +1,10 @@
 
-export default function BlogPost({params}) {
+export default async function BlogPost({params}) {
+   const {slug} = await params
    return (
     <main>
     <h1>Blog Item</h1>
-    <p>{params.slug}</p>
+    <p>{slug}</p>
 </main>
    )
 }
