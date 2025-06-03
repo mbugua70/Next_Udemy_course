@@ -9,6 +9,7 @@ export default function MainHeader() {
   return (
     <header className={classes.header}>
       <Link className={classes.logo} href="/">
+      {/* the image compo from nextjs is used to output the image in the best way via lazy loading. */}
         <Image src={LogoImg} alt="Plate with food" />
         FastDrive Food
       </Link>

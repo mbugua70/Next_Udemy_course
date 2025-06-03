@@ -47,3 +47,6 @@ export default function ImageSlideshow() {
     </div>
   );
 }
+
+// NOTES:
+// React server component and client component
